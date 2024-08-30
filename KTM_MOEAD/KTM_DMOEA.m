@@ -26,7 +26,7 @@ Tt = T_parameter(group,2);
             Ys = [ones(size(LastPOS,2),1);zeros(size(LastPOS,2),1)];
             
             
-            %Construct the labeled target domain（为保证公平，所有对比算法也需要多进化一次）
+            %Construct the labeled target domain（To be fair, all the compared algorithms should also evolve once）
             [PopX,Pareto,POF_iter]=moead(Problem,popSize,1,t,LastPOS);
             CurrentPOS = Pareto.X;
             CurrentPOS = unique(CurrentPOS','rows','stable')';
@@ -35,7 +35,7 @@ Tt = T_parameter(group,2);
             Yt_label = [ones(size(CurrentPOS,2),1);zeros(size(CurrentPOS,2),1)];
             
             %Construct the unlabeled target dimain (i.e., test samples),
-            %matlab 存在bug, 需要打乱一点数据才会在迭代的时候生成随机，否则有可能生成一样的随机解
+            %shuffle the order for generating random solutions
             testSize = randi([800 1000],1) + randi([1 100],1)*randi([1 5],1);
             Xt_unlabel = generateRandomPoints(testSize,Problem)';
             Yt_unlabel = ones(size(Xt_unlabel,1),1); 
@@ -76,7 +76,7 @@ Tt = T_parameter(group,2);
                 initPop = POPX_prediction(1:popSize,:)';
             else
                 initPop = POPX_prediction';
-                %initPop = [POPX_prediction' CurrentPOS];%当预测解小于种群时，已得到的精英解加进去
+                %initPop = [POPX_prediction' CurrentPOS];
                 %if size(initPop,2)>popSize
                     %initPop = initPop(:,1:popSize);
                 %end  
